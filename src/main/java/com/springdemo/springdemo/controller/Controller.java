@@ -13,6 +13,6 @@ public class Controller {
     @PostMapping("/")
     public String getFromURL(@RequestBody String content){
         System.out.println("From URL : "+ content);
-        return "Sucess";
+        return "Sucess!!";
     }
 }
