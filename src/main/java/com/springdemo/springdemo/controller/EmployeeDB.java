@@ -4,6 +4,7 @@ import com.springdemo.springdemo.models.Person;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class EmployeeDB {
@@ -13,21 +14,52 @@ public class EmployeeDB {
 
     public EmployeeDB(HashMap<Integer, String> emp) {
         this.emp = new HashMap<Integer, Person>();
-        this.emp.put(1, new Person("Gokulraj", "gokulrajganesan2000@gmail.com"));
-        this.emp.put(2, new Person("Sanjay", "sanjay@gmail.com"));
-        counter = 2;
+        this.emp.put(1, new Person("Gokulraj", "gokulrajganesan2000@gmail.com", 10000.0));
+        this.emp.put(2, new Person("Sanjay", "sanjay@gmail.com", 10000.0));
+        counter = 3;
     }
 
-    @GetMapping("/employees/get/{id}")
-    public String getEmployeeDetail(@PathVariable(value = "id") int id) {
+    @GetMapping("/employees/get-by-id/{id}")
+    public HashMap getEmployeeDetailByID(@PathVariable(value = "id") int id) {
+        HashMap<Integer, Person> getEmployeeDetailByID = new HashMap<>();
+        getEmployeeDetailByID.put(id,this.emp.get(id));
+        return getEmployeeDetailByID;
+    }
 
-        return String.valueOf(this.emp.get(id));
+    @GetMapping("/employees/get-by-name/{name}")
+    public HashMap getEmployeeDetailByName(@PathVariable(value = "name") String name) {
+        HashMap<Object, Object> searchByNameResult = new HashMap<>();
+
+        for (Map.Entry detail: this.emp.entrySet()){
+            Person individualPerson = (Person) detail.getValue();
+            if(individualPerson.getName().equals(name)) {
+                searchByNameResult.put(detail.getKey(),detail.getValue());
+//                System.out.println(detail.getKey()+" "+detail.getValue());
+            }
+        }
+        return searchByNameResult;
+    }
+
+    @GetMapping("/employees/get-by-salary-range/")
+    public HashMap getEmployeeDetailBySalaryRange(@RequestParam(value = "start") int start,
+                                                 @RequestParam(value = "end") int end) {
+        HashMap<Object, Object> searchBySalaryResult = new HashMap<>();
+
+        for (Map.Entry detail: this.emp.entrySet()){
+            Person individualPerson = (Person) detail.getValue();
+            if(individualPerson.getSalary()>=start && individualPerson.getSalary()<=end) {
+                searchBySalaryResult.put(detail.getKey(),detail.getValue());
+//                System.out.println(detail.getKey()+" "+detail.getValue());
+            }
+        }
+
+        return searchBySalaryResult;
     }
 
     @PostMapping("/employees/add")
     public void addEmployeeDetail(@RequestBody Person person) {
 
-        this.emp.put(counter, new Person(person.getName(), person.getEmail()));
+        this.emp.put(counter, new Person(person.getName(), person.getEmail(), person.getSalary()));
 
     }
 
@@ -36,7 +68,8 @@ public class EmployeeDB {
 
 
         emp.put(id, new Person(person.getName() != null ? person.getName() : this.emp.get(id).getName(),
-                person.getEmail() != null ? person.getEmail() : this.emp.get(id).getEmail()));
+                person.getEmail() != null ? person.getEmail() : this.emp.get(id).getEmail(),
+                person.getSalary() != 0.0 ? person.getSalary() : this.emp.get(id).getSalary()));
 
     }
 
