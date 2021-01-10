@@ -3,10 +3,20 @@ package com.springdemo.springdemo.models;
 public class Person {
     private String name;
     private String email;
+    private double salary;
 
-    public Person(String name, String email) {
+    public Person(String name, String email, double salary) {
         this.name = name;
         this.email = email;
+        this.salary = salary;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public String getName() {
@@ -30,6 +40,7 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", salary=" + salary +
                 '}';
     }
 }
