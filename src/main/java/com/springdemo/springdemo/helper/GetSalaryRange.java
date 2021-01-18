@@ -4,6 +4,11 @@ public class GetSalaryRange {
     private int start;
     private int end;
 
+    public GetSalaryRange(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+
     public int getStart() {
         return start;
     }

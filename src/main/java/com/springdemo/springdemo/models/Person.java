@@ -1,8 +1,18 @@
 package com.springdemo.springdemo.models;
 
+
+import com.springdemo.springdemo.exception.NameNotFoundException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.validation.constraints.NotNull;
+
 public class Person {
+
+
     private String name;
+
     private String email;
+
     private double salary;
 
     public Person(String name, String email, double salary) {
