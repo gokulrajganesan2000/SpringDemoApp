@@ -21,11 +21,12 @@ public class EmployeeDB {
 
     HashMap<Integer, Person> emp;
     private int counter;
-    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
-    Pattern pattern ;
+    Pattern pattern;
+
     public EmployeeDB() {
         this.emp = new HashMap<Integer, Person>();
         this.emp.put(1, new Person("Gokulraj", "gokulrajganesan2000@gmail.com", 20000.0));
@@ -38,13 +39,13 @@ public class EmployeeDB {
     @GetMapping("/employees/get/id/{id}")
     public HashMap getEmployeeDetailByID(@PathVariable(value = "id") int id) {
 
-        if(!this.emp.containsKey(id)){
+        if (!this.emp.containsKey(id)) {
 
             throw new ResourceNotFoundException("UserID Not Found");
         }
 
         HashMap<Integer, Person> getEmployeeDetailByID = new HashMap<>();
-        getEmployeeDetailByID.put(id,this.emp.get(id));
+        getEmployeeDetailByID.put(id, this.emp.get(id));
         return getEmployeeDetailByID;
     }
 
@@ -53,11 +54,10 @@ public class EmployeeDB {
 
         HashMap<Object, Object> searchByNameResult = new HashMap<>();
 
-        for (Map.Entry detail: this.emp.entrySet()){
+        for (Map.Entry detail : this.emp.entrySet()) {
             Person individualPerson = (Person) detail.getValue();
-            if(individualPerson.getName().equals(name)) {
-                searchByNameResult.put(detail.getKey(),detail.getValue());
-//                System.out.println(detail.getKey()+" "+detail.getValue());
+            if (individualPerson.getName().equals(name)) {
+                searchByNameResult.put(detail.getKey(), detail.getValue());
             }
         }
         return searchByNameResult;
@@ -68,8 +68,8 @@ public class EmployeeDB {
         Map<Object, Object> searchBySalaryResult = new HashMap<>();
 
         searchBySalaryResult = this.emp.entrySet().stream()
-                .filter(salary -> salary.getValue().getSalary()>= salaryRange.getStart()
-                        && salary.getValue().getSalary()<=salaryRange.getEnd())
+                .filter(salary -> salary.getValue().getSalary() >= salaryRange.getStart()
+                        && salary.getValue().getSalary() <= salaryRange.getEnd())
                 .collect(Collectors.toMap(detail -> detail.getKey(), detail -> detail.getValue()));
 
 //                .forEach(detail -> searchBySalaryResult.put(detail.getKey(),detail.getValue()));
@@ -86,17 +86,10 @@ public class EmployeeDB {
     }
 
     @PostMapping("/employees/add")
-    public boolean addEmployeeDetail( @Valid @RequestBody Person person) {
+    public boolean addEmployeeDetail(@Valid @RequestBody Person person) {
 
-
-        if(person.getName()==null || person.getName().equals("")){
-            throw new NameNotFoundException("User name is Empty!");
-        }
-        if(person.getEmail()==null || person.getEmail().equals("") || !pattern.matcher(person.getEmail()).matches()){
+        if (!pattern.matcher(person.getEmail()).matches()) {
             throw new NameNotFoundException("Enter an valid Email!");
-        }
-        if(person.getSalary()<0){
-            throw new NumberLessThanZeroError("Salary must be a positive number");
         }
 
         this.emp.put(counter, new Person(person.getName(), person.getEmail(), person.getSalary()));
@@ -104,24 +97,16 @@ public class EmployeeDB {
     }
 
     @PutMapping("/employees/update/{id}")
-    public boolean updateEmployeeDetail(@PathVariable(value = "id") int id, @RequestBody Person person){
-        if(!this.emp.containsKey(id)){
+    public boolean updateEmployeeDetail(@PathVariable(value = "id") int id, @RequestBody Person person) {
+        if (!this.emp.containsKey(id)) {
 
-            throw new ResourceNotFoundException("user id "+ id +" not found!" );
+            throw new ResourceNotFoundException("user id " + id + " not found!");
         }
-
-        if(person.getName()==null || person.getName().equals("")){
-            throw new NameNotFoundException("User name is Empty!");
-        }
-        if(person.getEmail()==null || person.getEmail().equals("") || !pattern.matcher(person.getEmail()).matches()){
+        if (!pattern.matcher(person.getEmail()).matches()) {
             throw new EmailAddressNotValidException("Enter an valid Email!");
-        }
-        if(person.getSalary()<0){
-            throw new NumberLessThanZeroError("Salary must be a positive number");
         }
 
         this.emp.put(id, new Person(person.getName(), person.getEmail(), person.getSalary()));
-
 
 
 //        emp.put(id, new Person(person.getName() != null ? person.getName() : this.emp.get(id).getName(),
@@ -132,10 +117,9 @@ public class EmployeeDB {
     }
 
 
-
     @DeleteMapping("/employees/delete/{id}")
     public boolean deleteEmployeeDetail(@PathVariable(value = "id") int id) {
-        if(!this.emp.containsKey(id)){
+        if (!this.emp.containsKey(id)) {
 
             throw new ResourceNotFoundException("UserID Not Found");
         }

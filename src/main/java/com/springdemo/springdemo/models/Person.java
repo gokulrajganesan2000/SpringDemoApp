@@ -4,15 +4,22 @@ package com.springdemo.springdemo.models;
 import com.springdemo.springdemo.exception.NameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class Person {
 
-
+    @NotNull(message = "Name can't be null")
+    @NotBlank(message = "Name can't be empty")
     private String name;
 
+    @NotNull(message = "Email can't be null")
+    @NotBlank(message = "Email can't be empty")
     private String email;
 
+    @Min(value = 0,
+            message = "Salary can't be negative")
     private double salary;
 
     public Person(String name, String email, double salary) {

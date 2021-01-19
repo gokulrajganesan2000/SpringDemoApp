@@ -21,14 +21,14 @@ class EmployeeDBTest {
 //        Testcase 1
         HashMap<Integer, Person> response = employeeDB.getEmployeeDetailByID(1);
 
-        assertEquals(true,response.get(1).getName().equals("Gokulraj")
+        assertEquals(true, response.get(1).getName().equals("Gokulraj")
                 && response.get(1).getEmail().equals("gokulrajganesan2000@gmail.com")
                 && Double.compare(response.get(1).getSalary(), 20000.0) == 0);
 
 //        Testcase 2
-        Throwable error = assertThrows(ResourceNotFoundException.class,()->employeeDB.getEmployeeDetailByID(11));
+        Throwable error = assertThrows(ResourceNotFoundException.class, () -> employeeDB.getEmployeeDetailByID(11));
 
-        assertEquals("UserID Not Found",error.getMessage());
+        assertEquals("UserID Not Found", error.getMessage());
 
     }
 
@@ -38,23 +38,23 @@ class EmployeeDBTest {
         HashMap<Integer, Person> response = employeeDB.getEmployeeDetailByName("Sanjay");
 
 //        Testcase 1
-        assertEquals(true,response.get(2).getName().equals("Sanjay")
+        assertEquals(true, response.get(2).getName().equals("Sanjay")
                 && response.get(2).getEmail().equals("sanjay@gmail.com")
-                && Double.compare(response.get(2).getSalary(),15000.0)==0);
+                && Double.compare(response.get(2).getSalary(), 15000.0) == 0);
 
 //        Testcase 2
-        assertEquals(false,response.get(2).getName().equals("Sanjay")
+        assertEquals(false, response.get(2).getName().equals("Sanjay")
                 && response.get(2).getEmail().equals("sanjay@gmail..com")
-                && Double.compare(response.get(2).getSalary(),15000.0)==0);
+                && Double.compare(response.get(2).getSalary(), 15000.0) == 0);
     }
 
     @Test
     void getEmployeeDetailBySalaryRange() {
         EmployeeDB employeeDB = new EmployeeDB();
-        HashMap<Integer,Person> employeeDetailBySalaryRange = employeeDB.getEmployeeDetailBySalaryRange(new GetSalaryRange(9000, 15000));
-        assertEquals(true,employeeDetailBySalaryRange.get(2).getName().equals("Sanjay")
+        HashMap<Integer, Person> employeeDetailBySalaryRange = employeeDB.getEmployeeDetailBySalaryRange(new GetSalaryRange(9000, 15000));
+        assertEquals(true, employeeDetailBySalaryRange.get(2).getName().equals("Sanjay")
                 && employeeDetailBySalaryRange.get(2).getEmail().equals("sanjay@gmail.com")
-                && Double.compare(employeeDetailBySalaryRange.get(2).getSalary(),15000.0)==0);
+                && Double.compare(employeeDetailBySalaryRange.get(2).getSalary(), 15000.0) == 0);
 
     }
 
@@ -68,9 +68,9 @@ class EmployeeDBTest {
 //        Testcase 2
         EmployeeDB employeeDB1 = new EmployeeDB();
         Throwable error = assertThrows(NameNotFoundException.class,
-                ()->employeeDB1.addEmployeeDetail(new Person("", "sharangramana@gmail.com", 10000.0)));
+                () -> employeeDB1.addEmployeeDetail(new Person("", "sharangramana@gmail.com", 10000.0)));
 
-        assertEquals("User name is Empty!",error.getMessage());
+        assertEquals("User name is Empty!", error.getMessage());
     }
 
 
@@ -79,9 +79,9 @@ class EmployeeDBTest {
 //        Testcase 1
         EmployeeDB employeeDB = new EmployeeDB();
 
-        Throwable error = assertThrows(ResourceNotFoundException.class,()->employeeDB.deleteEmployeeDetail(20));
+        Throwable error = assertThrows(ResourceNotFoundException.class, () -> employeeDB.deleteEmployeeDetail(20));
 
-        assertEquals("UserID Not Found",error.getMessage());
+        assertEquals("UserID Not Found", error.getMessage());
     }
 
     @Test
@@ -91,6 +91,6 @@ class EmployeeDBTest {
         Throwable error = assertThrows(EmailAddressNotValidException.class,
                 () -> employeeDB.updateEmployeeDetail(1, new Person("Gokulraj", "", 20000.0)));
 
-        assertEquals("Enter an valid Email!",error.getMessage());
+        assertEquals("Enter an valid Email!", error.getMessage());
     }
 }
