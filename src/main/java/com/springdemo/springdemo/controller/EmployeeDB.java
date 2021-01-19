@@ -22,9 +22,7 @@ public class EmployeeDB {
     HashMap<Integer, Person> emp;
     private int counter;
     String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-            "[a-zA-Z0-9_+&*-]+)*@" +
-            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-            "A-Z]{2,7}$";
+            "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
     Pattern pattern;
 
     public EmployeeDB() {

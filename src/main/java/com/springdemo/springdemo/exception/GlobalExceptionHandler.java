@@ -15,32 +15,32 @@ import java.util.regex.Pattern;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
+    public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity(errorDetails, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(NameNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(NameNotFoundException exception, WebRequest webRequest) {
+    public ResponseEntity<?> nameNotFoundException(NameNotFoundException exception, WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity(errorDetails, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(EmailAddressNotValidException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(EmailAddressNotValidException exception, WebRequest webRequest) {
+    public ResponseEntity<?> emailAddressNotValidException(EmailAddressNotValidException exception, WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity(errorDetails, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(NumberLessThanZeroError.class)
-    public ResponseEntity<?> handleResourceNotFoundException(NumberLessThanZeroError exception, WebRequest webRequest) {
+    public ResponseEntity<?> numberLessThanZeroError(NumberLessThanZeroError exception, WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity(errorDetails, HttpStatus.NOT_ACCEPTABLE);
 
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> methodArgumentNotNull(MethodArgumentNotValidException exception, WebRequest webRequest) {
+    public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException exception, WebRequest webRequest) {
 
         Pattern MY_PATTERN = Pattern.compile("\\[(.*?)]");
         Matcher m = MY_PATTERN.matcher(exception.getMessage());
